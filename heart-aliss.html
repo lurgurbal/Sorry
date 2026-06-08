@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aliss 💕</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background:#000;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  .page {
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+    gap:44px;
+    padding:20px;
+    width:100%;
+    max-width:1150px;
+  }
+
+  /* ── HEART CONTAINER ── */
+  .heart-wrap {
+    position:relative;
+    flex-shrink:0;
+    width:500px;
+    height:480px;
+    /* perspective for 3D effect */
+    perspective:900px;
+  }
+
+  /* Each "I love you" element */
+  .lv {
+    position:absolute;
+    color:#f090c0;
+    font-family: 'Dancing Script', cursive;
+    white-space:nowrap;
+    opacity:0;
+    /* animation set per element via JS */
+  }
+
+  @keyframes floatIn {
+    0%   { opacity:0;   transform: translate(-50%,-50%) translateZ(-300px) scale(0.2); }
+    25%  { opacity:1;   transform: translate(-50%,-50%) translateZ(0px)    scale(1);   }
+    75%  { opacity:1;   transform: translate(-50%,-50%) translateZ(0px)    scale(1);   }
+    100% { opacity:0;   transform: translate(-50%,-50%) translateZ(100px)  scale(1.2); }
+  }
+
+  /* "Aliss" — pinned exactly at the visual center of the heart */
+  .aliss-center {
+    position:absolute;
+    /* heart center is slightly above geometric center */
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    text-align:center;
+    pointer-events:none;
+    z-index:20;
+  }
+  .aliss-name {
+    font-family:'Dancing Script',cursive;
+    font-weight:700;
+    font-size:78px;
+    color:#fff;
+    text-shadow:
+      0 0 18px rgba(255,140,190,1),
+      0 0 45px rgba(255,80,150,0.85),
+      0 0 90px rgba(255,60,130,0.4);
+    animation:glowName 2.2s ease-in-out infinite alternate;
+    line-height:1;
+    white-space:nowrap;
+  }
+  @keyframes glowName {
+    from{ text-shadow:0 0 16px rgba(255,130,180,0.95),0 0 36px rgba(255,80,150,0.55); }
+    to  { text-shadow:0 0 30px rgba(255,178,218,1),0 0 72px rgba(255,112,178,0.95),0 0 120px rgba(255,60,130,0.5); }
+  }
+
+  /* ── RIGHT PANEL ── */
+  .panel {
+    max-width:340px;
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+  }
+  .name-title {
+    font-family:'Dancing Script',cursive;
+    font-size:34px;
+    font-weight:700;
+    color:#fff;
+    text-shadow:0 0 20px rgba(255,130,180,1);
+    animation:glowName 2.2s ease-in-out infinite alternate;
+  }
+  .message-box {
+    border-left:2px solid rgba(255,120,170,0.45);
+    padding-left:16px;
+  }
+  .message-box p {
+    font-family:'Cormorant Garamond',serif;
+    font-size:15px;
+    font-style:italic;
+    color:rgba(255,220,235,0.88);
+    line-height:1.9;
+  }
+  .timer-box { display:flex; flex-direction:column; gap:9px; }
+  .timer-label {
+    font-family:'Dancing Script',cursive;
+    font-size:15px;
+    color:rgba(255,150,190,0.7);
+    letter-spacing:1px;
+  }
+  .timer-grid {
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 10px;
+    align-items:flex-end;
+  }
+  .time-unit { display:flex; flex-direction:column; align-items:center; gap:3px; }
+  .time-num {
+    font-family:'Dancing Script',cursive;
+    font-size:38px;
+    font-weight:700;
+    color:#fff;
+    text-shadow:0 0 14px rgba(255,120,170,0.9);
+    line-height:1;
+    min-width:2ch;
+    text-align:center;
+  }
+  .time-lbl {
+    font-family:'Cormorant Garamond',serif;
+    font-size:9px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:rgba(255,150,190,0.55);
+  }
+  .since-label {
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:11px;
+    color:rgba(255,150,190,0.4);
+    margin-top:2px;
+  }
+
+  @media(max-width:720px){
+    .page{ flex-direction:column; gap:10px; }
+    .heart-wrap{ width:94vw; height:90vw; perspective:600px; }
+    .aliss-name{ font-size:14vw; }
+    .panel{ align-items:center; text-align:center; max-width:96vw; }
+    .message-box{ border-left:none; border-top:1px solid rgba(255,120,170,0.3); padding-left:0; padding-top:12px; }
+    .timer-grid{ justify-content:center; }
+    .time-num{ font-size:8vw; }
+    .name-title{ font-size:6.5vw; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="heart-wrap" id="heartContainer">
+    <div class="aliss-center">
+      <div class="aliss-name">A</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="name-title">💕 Aliss 💕</div>
+    <div class="message-box">
+      <p>I'm really sorry for my overthinking and the tension today, babe. I never want to stress you out or make things difficult between us. You mean everything to me and I just want us to be good.</p>
+    </div>
+    <div class="timer-box">
+      <div class="timer-label">✦ Do you remember how we met and our love story began…</div>
+      <div class="timer-grid">
+        <div class="time-unit">
+          <span class="time-num" id="tMonths">00</span>
+          <span class="time-lbl">months</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-num" id="tDays">00</span>
+          <span class="time-lbl">days</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-num" id="tHours">00</span>
+          <span class="time-lbl">hours</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-num" id="tMins">00</span>
+          <span class="time-lbl">minutes</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-num" id="tSecs">00</span>
+          <span class="time-lbl">seconds</span>
+        </div>
+      </div>
+      <div class="since-label">Since January 30...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── TIMER ────────────────────────────────────────────────────────────────────
+const START = new Date('2026-01-30T22:00:00');
+function pad(n,w=2){ return String(n).padStart(w,'0'); }
+function tick(){
+  const now = new Date();
+  let months = (now.getFullYear()-START.getFullYear())*12+(now.getMonth()-START.getMonth());
+  const after = new Date(START); after.setMonth(after.getMonth()+months);
+  if(after>now){ months--; after.setMonth(after.getMonth()-1); }
+  const rem = Math.floor((now-after)/1000);
+  document.getElementById('tMonths').textContent = pad(Math.max(0,months));
+  document.getElementById('tDays').textContent   = pad(Math.floor(rem/86400));
+  document.getElementById('tHours').textContent  = pad(Math.floor((rem%86400)/3600));
+  document.getElementById('tMins').textContent   = pad(Math.floor((rem%3600)/60));
+  document.getElementById('tSecs').textContent   = pad(rem%60);
+}
+setInterval(tick,1000); tick();
+
+// ── HEART ────────────────────────────────────────────────────────────────────
+(function(){
+  const container = document.getElementById('heartContainer');
+
+  function build(){
+    // Remove old lv elements if rebuilding
+    container.querySelectorAll('.lv').forEach(e=>e.remove());
+
+    const W = container.offsetWidth;
+    const H = container.offsetHeight;
+
+    // Heart visual center: the parametric heart is slightly bottom-heavy,
+    // so the visual center sits at ~43% from top
+    const CX = W * 0.50;
+    const CY = H * 0.47;
+
+    // Scale so heart fits nicely — calibrated to fill the container
+    const SC = Math.min(W, H) * 0.0215;
+
+    function heartXY(t){
+      const x =  16 * Math.pow(Math.sin(t), 3);
+      const y = -(13*Math.cos(t) - 5*Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t));
+      return { x: CX + x*SC, y: CY + y*SC };
+    }
+
+    // Number of "I love you" elements
+    const N = 60;
+
+    for(let i=0; i<N; i++){
+      const t  = (i / N) * Math.PI * 2;
+      const hp = heartXY(t);
+
+      // Distance from center → drives font size (closer=small, farther=big)
+      const dx   = hp.x - CX;
+      const dy   = hp.y - CY;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      const maxD = SC * 17;
+      const ratio= Math.min(dist / maxD, 1);
+
+      // Font: 11px (top arch, close to center) → 30px (bottom tip & wide sides)
+      const fontSize = 11 + ratio * 20;
+      const fontWeight = ratio > 0.55 ? '700' : '500';
+
+      // Color: lighter/pinker at top, deeper rose at bottom
+      const lightness = 68 + ratio * 10;
+      const color = `hsl(335, 85%, ${lightness}%)`;
+      const glow  = `hsl(330, 90%, ${Math.min(lightness+12,95)}%)`;
+
+      const el = document.createElement('div');
+      el.className = 'lv';
+      el.textContent = 'I love you';
+      el.style.cssText = `
+        left:${hp.x}px;
+        top:${hp.y}px;
+        font-size:${fontSize}px;
+        font-weight:${fontWeight};
+        color:${color};
+        text-shadow:0 0 ${6+ratio*14}px ${glow};
+        animation: floatIn ${3 + Math.random()*2}s infinite linear;
+        animation-delay: ${-(i/N)*4}s;
+      `;
+      // transform anchor is center of text
+      el.style.transform = 'translate(-50%,-50%) translateZ(0)';
+
+      container.appendChild(el);
+    }
+  }
+
+  // Wait for fonts then build
+  document.fonts.ready.then(build);
+  window.addEventListener('resize', ()=>{ build(); });
+})();
+</script>
+</body>
+</html>
