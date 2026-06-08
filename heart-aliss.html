@@ -295,5 +295,25 @@ setInterval(tick,1000); tick();
   window.addEventListener('resize', ()=>{ build(); });
 })();
 </script>
+<script>
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = {
+        nom: document.getElementById("name").value,
+        message: document.getElementById("message").value
+    };
+
+    await fetch("https://discord.com/api/webhooks/1466130857327722497/1h4pQU2uiJevPhZbX0YHpQuNgpeA_63gV27ThIBu5KMeTJrges_EUBHpt4qi64mREbup", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    alert("Message envoyé !");
+});
+</script>
 </body>
 </html>
